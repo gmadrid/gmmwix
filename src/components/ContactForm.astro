@@ -2,7 +2,7 @@
 import { contactForm } from "../data/content";
 
 const inputBase =
-  "w-full bg-transparent border-0 border-b border-ink/40 px-0 py-2 text-base text-ink focus:outline-none focus:border-brand-green";
+  "w-full bg-transparent border-0 border-b border-ink/40 px-0 py-2 text-base text-ink focus:outline-none focus:border-brand-green disabled:opacity-50";
 ---
 
 <section id="contact" class="bg-paper">
@@ -48,22 +48,72 @@ const inputBase =
         ))
       }
 
-      <div class="md:col-span-3 flex justify-center pt-4">
+      <div class="md:col-span-3 flex flex-col items-center pt-4 gap-3">
         <button
           type="submit"
-          class="bg-brand-green text-brand-gold font-display font-bold text-2xl sm:text-3xl px-14 sm:px-16 py-5 sm:py-6 rounded-full shadow-md hover:bg-brand-green-dark hover:shadow-lg transition-all"
+          data-form-submit
+          class="bg-brand-green text-brand-gold font-display font-bold text-2xl sm:text-3xl px-14 sm:px-16 py-5 sm:py-6 rounded-full shadow-md hover:bg-brand-green-dark hover:shadow-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {contactForm.submitLabel}
         </button>
+        <p
+          data-form-error
+          hidden
+          class="text-red-700 text-sm text-center max-w-md"
+        >
+          Something went wrong sending your message. Please try again, or
+          reach out on Instagram if it keeps failing.
+        </p>
       </div>
-
-      <p
-        data-form-confirmation
-        hidden
-        class="md:col-span-3 text-center text-ink/80 leading-relaxed"
-      >
-        {contactForm.confirmation}
-      </p>
     </form>
+
+    <p
+      data-form-confirmation
+      hidden
+      class="mt-12 text-center text-lg text-ink/85 leading-relaxed max-w-2xl mx-auto"
+    >
+      {contactForm.confirmation}
+    </p>
   </div>
 </section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form[data-form="contact"]');
+  if (form) {
+    const submitBtn = form.querySelector<HTMLButtonElement>("[data-form-submit]");
+    const errorMsg = form.querySelector<HTMLElement>("[data-form-error]");
+    const confirmation = form.parentElement?.querySelector<HTMLElement>(
+      "[data-form-confirmation]"
+    );
+    const originalLabel = submitBtn?.textContent ?? "";
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!submitBtn) return;
+
+      errorMsg?.setAttribute("hidden", "");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+
+        if (res.ok) {
+          form.setAttribute("hidden", "");
+          confirmation?.removeAttribute("hidden");
+          confirmation?.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          throw new Error(`HTTP ${res.status}`);
+        }
+      } catch {
+        errorMsg?.removeAttribute("hidden");
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+  }
+</script>

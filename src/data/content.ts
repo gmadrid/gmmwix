@@ -74,7 +74,7 @@ export const contactForm = {
   submitLabel: "Let's Get Started",
   confirmation:
     "Thanks so much for reaching out! Let's make your next event a big success with your guests. I'll be in touch soon with a response to your request.",
-  endpoint: "TODO_FORM_ENDPOINT",
+  endpoint: "https://formspree.io/f/xqeopkjv",
   fields: [
     { name: "firstName", label: "First Name", type: "text", required: true, half: true },
     { name: "lastName", label: "Last Name", type: "text", required: true, half: true },
