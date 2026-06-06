@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #006B36;
+  --color-brand-green-dark: #00532a;
+  --color-brand-gold: #e8a838;
+  --color-brand-gold-dark: #c08e2a;
+  --color-ink: #1a1a1a;
+  --color-paper: #ffffff;
+
+  --font-display: "Oswald", system-ui, sans-serif;
+  --font-body: "Montserrat", system-ui, sans-serif;
+}

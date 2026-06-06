@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+import iconStrolling from "../assets/images/icon-strolling.png";
+import iconParties from "../assets/images/icon-parties.png";
+import iconCorporate from "../assets/images/icon-corporate.png";
+import { services } from "../data/content";
+
+const imageMap = {
+  strolling: iconStrolling,
+  parties: iconCorporate,
+  corporate: iconParties,
+};
+
+// Checkerboard layout: text and photos alternate across a 2×3 grid.
+// Pattern (left→right, top→bottom):
+//   photo,  text,  photo
+//   text,   photo, text
+type Cell =
+  | { kind: "photo"; service: (typeof services)[number] }
+  | { kind: "text"; service: (typeof services)[number] };
+
+const grid: Cell[] = [
+  { kind: "photo", service: services[0] },
+  { kind: "text", service: services[0] },
+  { kind: "photo", service: services[2] },
+  { kind: "text", service: services[1] },
+  { kind: "photo", service: services[1] },
+  { kind: "text", service: services[2] },
+];
+---
+
+<section id="services" class="bg-paper">
+  <div class="grid grid-cols-1 md:grid-cols-3">
+    {
+      grid.map((cell) =>
+        cell.kind === "photo" ? (
+          <div class="aspect-[4/3] overflow-hidden">
+            <Image
+              src={imageMap[cell.service.icon]}
+              alt={cell.service.title}
+              widths={[400, 600, 900]}
+              sizes="(min-width: 768px) 33vw, 100vw"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        ) : (
+          <article class="aspect-[4/3] flex flex-col items-center justify-center text-center px-6 sm:px-10 py-10">
+            <h3 class="font-display font-bold text-brand-green text-2xl">
+              {cell.service.title}
+            </h3>
+            <p class="mt-4 text-ink/85 text-[15px] leading-relaxed max-w-sm">
+              {cell.service.body}
+            </p>
+          </article>
+        )
+      )
+    }
+  </div>
+  <div class="h-3 bg-brand-gold"></div>
+</section>

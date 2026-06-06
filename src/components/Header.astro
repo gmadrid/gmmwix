@@ -1,0 +1,39 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/images/logo.png";
+import { nav, site } from "../data/content";
+---
+
+<header class="bg-paper border-b border-black/5">
+  <div
+    class="mx-auto max-w-7xl px-6 py-2 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-5"
+  >
+    <a href="#home" class="flex items-center" aria-label={site.title}>
+      <Image
+        src={logo}
+        alt={site.title}
+        widths={[200, 300, 400]}
+        sizes="160px"
+        class="h-40 sm:h-44 w-auto object-contain"
+      />
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="flex items-center gap-7 sm:gap-10 text-lg sm:text-xl font-body font-bold">
+        {
+          nav.map((item, i) => (
+            <li>
+              <a
+                href={item.href}
+                data-current={i === 0 ? "" : null}
+                class="text-brand-green hover:text-brand-gold transition-colors data-[current]:text-brand-gold"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

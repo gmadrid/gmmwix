@@ -1,0 +1,28 @@
+---
+import { testimonials } from "../data/content";
+---
+
+<section id="reviews" class="bg-brand-gold">
+  <div
+    class="mx-auto max-w-7xl px-6 py-14 sm:py-16 grid gap-0 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-ink/30"
+  >
+    {
+      testimonials.map((t) => (
+        <figure class="flex flex-col items-center text-center px-6 py-10 md:py-0">
+          <span
+            aria-hidden="true"
+            class="text-brand-green font-display font-bold text-8xl sm:text-9xl leading-none"
+          >
+            &ldquo;
+          </span>
+          <figcaption class="mt-4 font-display font-bold text-2xl sm:text-3xl text-ink">
+            {t.name}, {t.location}
+          </figcaption>
+          <blockquote class="mt-5 text-lg sm:text-xl text-ink/90 leading-relaxed max-w-xs">
+            "{t.quote}"
+          </blockquote>
+        </figure>
+      ))
+    }
+  </div>
+</section>
