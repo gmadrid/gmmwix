@@ -1,8 +1,7 @@
 # gmmwix
 
-Static Astro port of [georgemadridmagic.com](https://www.georgemadridmagic.com/),
-migrated off paid Wix hosting. Single-page marketing site for George Madrid
-Magic — Boston-based comedy magician.
+Static Astro site for [georgemadridmagic.com](https://www.georgemadridmagic.com/) —
+single-page marketing site for George Madrid Magic, Boston-based comedy magician.
 
 Target deploy: GitHub Pages.
 
